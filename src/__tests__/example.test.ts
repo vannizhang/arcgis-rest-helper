@@ -1,5 +1,5 @@
-// import { greeter } from '../index';
+import { searchItems, formatItem } from '../index';
 
-// test('My Greeter', () => {
-//     expect(greeter('Carl')).toBe('Hello Carl');
-// });
+test('format ArcGIS Online item', () => {
+    // expect(searchItems()).toBe(undefined);
+});
