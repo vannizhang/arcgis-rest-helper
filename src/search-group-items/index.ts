@@ -50,11 +50,16 @@ type SearchOptions = {
     subCategories?: string[];
 };
 
+type AGOLGroupOptions = {
+    agolHost?: string;
+    groupId: string;
+}
+
 export const AGOL_HOST = 'https://www.arcgis.com';
 
 let categorySchemaJSON: IGroupCategorySchema = null;
 
-let defaultOptions = {
+let defaultOptions:AGOLGroupOptions = {
     agolHost: AGOL_HOST,
     groupId: '',
 };
@@ -62,7 +67,7 @@ let defaultOptions = {
 export const setDefaultGroupOptions = ({
     agolHost = AGOL_HOST,
     groupId,
-}: typeof defaultOptions):void => {
+}: AGOLGroupOptions):void => {
 
     if(!groupId){
         console.error('ArcGIS Online group Id is missing!');
