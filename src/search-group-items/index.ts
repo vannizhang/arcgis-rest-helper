@@ -157,7 +157,7 @@ const getCategoryPath = (mainCategory: string, subCategories?: string[]):string 
     );
 };
 
-const getQueryParamsForSearch = ({
+export const getQueryParamsForSearch = ({
     start = 1,
     num = 10,
     searchTerm = '',
@@ -194,14 +194,14 @@ const getQueryParamsForSearch = ({
     };
 
     const paramsStr = Object.entries(params)
-        .filter((key, val) => {
+        .filter(([key, val]) => {
             if (typeof val === 'string') {
                 return val !== '';
             }
 
             return true;
         })
-        .map((key, val) => {
+        .map(([key, val]) => {
             return `${key}=${val}`;
         })
         .join('&');
