@@ -1,2 +1,2 @@
-export * from './format-arcgis-online-item'
-export * from './search-group-content'
+export * from './format-item'
+export * from './search-group-items'
