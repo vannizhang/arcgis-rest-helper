@@ -1,11 +1,11 @@
 # arcgis-rest-helper
 
-Installation:
+## Installation:
 ```
 npm install @vannizhang/arcgis-rest-helper
 ```
 
-Module import:
+## Module import:
 ```js
 import {
     AgolItem,
@@ -13,10 +13,13 @@ import {
     SortField,
     SortOrder,
     SearchResponse,
-    AGOL_HOST,
     setDefaultGroupOptions,
     loadGroupCategorySchema,
     searchGroupItems,
     formatItem
 } from '@vannizhang/arcgis-rest-helper'
 ```
+
+## API Reference
+- [search-group-items](./src/search-group-items/README.md)
+- [format-item](./src/format-item/README.md)

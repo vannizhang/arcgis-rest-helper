@@ -48,48 +48,43 @@ type SearchOptions = {
     // sortOrder?: SortOrder;
     mainCategory?: string;
     subCategories?: string[];
-};
-
-type AGOLGroupOptions = {
+    groupId?: string;
     agolHost?: string;
-    groupId: string;
-}
+};
 
 export const AGOL_HOST = 'https://www.arcgis.com';
 
 let categorySchemaJSON: IGroupCategorySchema = null;
 
-let defaultOptions:AGOLGroupOptions = {
-    agolHost: AGOL_HOST,
-    groupId: '',
-};
+let defaultGroupId = '';
+let defaultAgolHost = AGOL_HOST;
 
 export const setDefaultGroupOptions = ({
     agolHost = AGOL_HOST,
     groupId,
-}: AGOLGroupOptions):void => {
+}: {
+    agolHost?: string;
+    groupId: string;
+}):void => {
 
     if(!groupId){
         console.error('ArcGIS Online group Id is missing!');
     }
 
-    defaultOptions = {
-        agolHost,
-        groupId,
-    };
+    defaultGroupId = groupId;
+    defaultAgolHost = agolHost
 };
 
 export const loadGroupCategorySchema = async (): Promise<
     IGroupCategorySchema
 > => {
-    const { groupId } = defaultOptions;
 
-    if (!groupId) {
+    if (!defaultGroupId) {
         console.log('group id is required to load category schema');
         return null;
     }
 
-    const data = await getGroupCategorySchema(groupId);
+    const data = await getGroupCategorySchema(defaultGroupId);
 
     return (categorySchemaJSON = data);
 };
@@ -210,7 +205,9 @@ export const getQueryParamsForSearch = ({
 };
 
 export const searchGroupItems = async (options: SearchOptions):Promise<SearchResponse> => {
-    const { agolHost, groupId } = defaultOptions;
+
+    const groupId = options.groupId || defaultGroupId;
+    const agolHost = options.agolHost || defaultAgolHost;
 
     const queryParams = getQueryParamsForSearch(options);
 
