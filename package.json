@@ -45,6 +45,8 @@
     "@esri/arcgis-rest-portal": "^3.3.1",
     "@esri/arcgis-rest-request": "^3.0.0",
     "@esri/arcgis-rest-types": "^3.3.1",
-    "axios": "^0.21.4"
+    "axios": "^0.21.4",
+    "isomorphic-form-data": "^2.0.0",
+    "node-fetch": "^3.0.0"
   }
 }
