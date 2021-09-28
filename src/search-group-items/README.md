@@ -30,6 +30,7 @@ const res = await searchGroupItems({
     contentType: 'layers',
     sortField: 'title',
     mainCategory: 'environment'
+    subCategories: ['Fresh Water', 'Land Cover']
 })
 
 // or search items from a specific group
@@ -58,7 +59,7 @@ const res = await searchGroupItems({
 | subCategories `optional`| string[]      |             |
 | groupId `optional` | string        |             |
 | agolHost `optional`| string        |             |
-
+| token `optional`   | string        |             |
 
 ### Returns
 

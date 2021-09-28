@@ -37,6 +37,7 @@ type SearchQueryParams = {
     sortField?: SortField;
     sortOrder?: SortOrder;
     categories?: string;
+    token?: string;
 };
 
 type SearchOptions = {
@@ -50,6 +51,7 @@ type SearchOptions = {
     subCategories?: string[];
     groupId?: string;
     agolHost?: string;
+    token?:string;
 };
 
 export const AGOL_HOST = 'https://www.arcgis.com';
@@ -161,6 +163,7 @@ export const getQueryParamsForSearch = ({
     // sortOrder = 'desc',
     mainCategory = '',
     subCategories = [],
+    token = ''
 }: SearchOptions): string => {
     const queryStrings: string[] = [];
 
@@ -186,6 +189,7 @@ export const getQueryParamsForSearch = ({
         sortField,
         sortOrder: SortOrderLookup[sortField] || 'desc',
         categories,
+        token
     };
 
     const paramsStr = Object.entries(params)
@@ -216,6 +220,10 @@ export const searchGroupItems = async (options: SearchOptions):Promise<SearchRes
     try {
         const { data } = await axios.get<ISearchResult<IItem>>(requestURL);
 
+        if(!data.results){
+            throw data;
+        }
+
         const response: SearchResponse = {
             ...data,
         };
@@ -226,7 +234,6 @@ export const searchGroupItems = async (options: SearchOptions):Promise<SearchRes
 
         return response;
     } catch (err) {
-        console.error(err);
-        return null;
+        throw err;
     }
 };

@@ -1,6 +1,9 @@
 import { UserSession } from '@esri/arcgis-rest-auth';
-import { IItem } from '@esri/arcgis-rest-types';
-import { shareItemWithGroup, unshareItemWithGroup, isItemSharedWithGroup, ISharingResponse, IGroupSharingOptions, searchItems } from '@esri/arcgis-rest-portal';
+import { shareItemWithGroup, unshareItemWithGroup, isItemSharedWithGroup, ISharingResponse, IGroupSharingOptions } from '@esri/arcgis-rest-portal';
+import {
+    AgolItem,
+    searchGroupItems
+} from '..'
 
 let favGroupId = '';
 let session:UserSession = null;
@@ -27,49 +30,51 @@ export const setMyFavoriteGroup = ({
     session = userSession;
 };
 
-export const getMyFavItems = async():Promise<IItem[]>=>{
+export const getMyFavItems = async():Promise<AgolItem[]>=>{
 
     if(!session || !favGroupId){
         return [];
     }
 
-    const response = await searchItems({
-        q: `(group:${favGroupId})`,
-        start: 1,
-        num: 1000,
-        authentication: session
-    })
+    try {
+        const response = await searchGroupItems({
+            groupId: favGroupId,
+            start: 1,
+            num: 1000,
+            token: session.token
+        })
+    
+        return response.results;
 
-    return response.results;
+    } catch(err){
+        throw err;
+    }
 }
 
-export const toggleShareWithMyFavGroup = (itemId:string):Promise<ISharingResponse>=>{
+export const toggleShareWithMyFavGroup = async(itemId:string):Promise<ISharingResponse>=>{
 
-    return new Promise(async(resolve, reject)=>{
+    if(!session){
+        throw {
+            error: 'need to sign in before toggle sharing item with my fav group'
+        };
+    }
 
-        if(!session){
-            reject({
-                errorMessage: 'need to sign in before toggle sharing item with my fav group'
-            });
-        }
-    
-        try {
-            const options:IGroupSharingOptions = {
-                groupId: favGroupId,
-                id: itemId,
-                authentication: session
-            };
-    
-            const isSharedWithMyFavGroup = await isItemSharedWithGroup(options)
-    
-            const response: ISharingResponse = isSharedWithMyFavGroup
-                ? await unshareItemWithGroup(options)
-                : await shareItemWithGroup(options)
-            
-            resolve(response);
-    
-        } catch(err){
-            reject(err)
-        }
-    })
+    try {
+        const options:IGroupSharingOptions = {
+            groupId: favGroupId,
+            id: itemId,
+            authentication: session
+        };
+
+        const isSharedWithMyFavGroup = await isItemSharedWithGroup(options)
+
+        const response: ISharingResponse = isSharedWithMyFavGroup
+            ? await unshareItemWithGroup(options)
+            : await shareItemWithGroup(options)
+        
+        return response;
+
+    } catch(err){
+        throw err;
+    }
 }
