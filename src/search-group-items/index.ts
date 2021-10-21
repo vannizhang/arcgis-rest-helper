@@ -237,3 +237,40 @@ export const searchGroupItems = async (options: SearchOptions):Promise<SearchRes
         throw err;
     }
 };
+
+export const searchGroupItemsByIds = async({
+    itemIds,
+    groupId,
+    agolHost
+}: {
+    itemIds: string[],
+    groupId?: string,
+    agolHost?: string,
+}):Promise<AgolItem[]>=>{
+
+    if(!itemIds.length){
+        return []
+    }
+
+    try {
+        const searchTerm = itemIds
+            .filter((d) => d)
+            .map((id) => {
+                return `id:${id}`;
+            })
+            .join(' OR ');
+
+        const res = await searchGroupItems({
+            groupId,
+            agolHost,
+            searchTerm,
+            num: itemIds.length
+        });
+
+        return res.results;
+
+    } catch(err){
+        console.error(err);
+        return [];
+    }
+}

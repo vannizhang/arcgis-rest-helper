@@ -1,8 +1,11 @@
 import {
     setDefaultGroupOptions,
     getQueryParamsForSearch,
-    searchGroupItems
+    searchGroupItems,
+    searchGroupItemsByIds
 } from '..'
+
+const POLICY_MAPS_GROUP_ID = 'a179c67d72c745709a7d95dd41922650'
 
 test('setDefaultGroupOptions', () => {
     expect(setDefaultGroupOptions({ groupId: '123'})).toBe(undefined);
@@ -15,7 +18,7 @@ test('getQueryParamsForSearch', () => {
 test('search items from esri policy maps group', async() => {
 
     try {
-        setDefaultGroupOptions({ groupId: 'a179c67d72c745709a7d95dd41922650'})
+        setDefaultGroupOptions({ groupId: POLICY_MAPS_GROUP_ID})
 
         const response = await searchGroupItems({
             num: 0
@@ -27,5 +30,25 @@ test('search items from esri policy maps group', async() => {
 
     } catch(err){
         console.log('failed to search group items', err)
+    }
+});
+
+test('search items by item ids', async() => {
+
+    try {
+        setDefaultGroupOptions({ groupId: POLICY_MAPS_GROUP_ID})
+
+        const items = await searchGroupItemsByIds({
+            itemIds: [
+                'ff0facb43ce643a2940f77029d257cf7',
+                'f98b82823fcc4291b7d03bbd0401f816',
+                'ee69e67f014c42ed84a5190ee990e5cd'
+            ]
+        })
+    
+        expect(items.length).toBe(3);
+
+    } catch(err){
+        console.log('failed to search items by item ids', err)
     }
 });
