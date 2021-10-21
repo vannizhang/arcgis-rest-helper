@@ -1,5 +1,11 @@
 # arcgis-rest-helper
 
+Have you ever seen the [Browse Page](https://livingatlas.arcgis.com/en/browse/#d=2) of the Living Atlas of the World site and/or the [Explore App](https://livingatlas.arcgis.com/policy/browse/) of the Esri Maps for Pulic Policy site? Although the UI look quite different, but ultimately these two apps do pretty much the same thing: **Search items from a ArcGIS Online Group** and render the results as a list. 
+
+Of course you can do this by using the `Group Content Search operation` from [ArcGIS REST API](https://developers.arcgis.com/rest/users-groups-and-items/group-content-search.htm), which is exactly what we use, but sooner or later you will realize that you will need to do a lot of extra things before you can do things like searching group content using the category schema or content type as filters; or getting the ready to use thumbnail image URL for items from the result before rendering them as list cards and etc.
+
+This library provide modules to simplify those tedious requests and tasks that we always need to handle when it comes to dealing with contents from ArcGIS Online, we use this library in several different Living Atlas apps/sites and we will continue to maintain this library by adding more modules to it.
+
 ## Installation:
 ```
 npm install @vannizhang/arcgis-rest-helper
@@ -16,6 +22,7 @@ import {
     setDefaultGroupOptions,
     loadGroupCategorySchema,
     searchGroupItems,
+    searchGroupItemsByIds,
     formatItem
 } from '@vannizhang/arcgis-rest-helper'
 ```
