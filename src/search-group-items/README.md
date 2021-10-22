@@ -10,15 +10,15 @@ searchGroupItems(options:SearchOptions) : Promise<SearchResponse>
 
 ```ts
 import {
+    setDefaultOptions,
     searchGroupItems,
     searchGroupItemsByIds,
-    setDefaultGroupOptions,
     loadGroupCategorySchema,
 } from '@vannizhang/arcgis-rest-helper';
 
 // set the default Group ID that will be used for searching items
 // make sure this is called before calling searchGroupItems
-setDefaultGroupOptions({
+setDefaultOptions({
     groupId: 'abc12345',
 });
 

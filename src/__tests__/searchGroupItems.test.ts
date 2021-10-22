@@ -1,5 +1,5 @@
 import {
-    setDefaultGroupOptions,
+    setDefaultOptions,
     getQueryParamsForSearch,
     searchGroupItems,
     searchGroupItemsByIds
@@ -7,8 +7,8 @@ import {
 
 const POLICY_MAPS_GROUP_ID = 'a179c67d72c745709a7d95dd41922650'
 
-test('setDefaultGroupOptions', () => {
-    expect(setDefaultGroupOptions({ groupId: '123'})).toBe(undefined);
+test('setDefaultOptions', () => {
+    expect(setDefaultOptions({ groupId: POLICY_MAPS_GROUP_ID})).toBe(undefined);
 });
 
 test('getQueryParamsForSearch', () => {
@@ -18,7 +18,7 @@ test('getQueryParamsForSearch', () => {
 test('search items from esri policy maps group', async() => {
 
     try {
-        setDefaultGroupOptions({ groupId: POLICY_MAPS_GROUP_ID})
+        setDefaultOptions({ groupId: POLICY_MAPS_GROUP_ID})
 
         const response = await searchGroupItems({
             num: 0
@@ -29,14 +29,14 @@ test('search items from esri policy maps group', async() => {
         expect(response.num).toBe(0);
 
     } catch(err){
-        console.log('failed to search group items', err)
+        console.log('failed to search group items: ', err)
     }
 });
 
 test('search items by item ids', async() => {
 
     try {
-        setDefaultGroupOptions({ groupId: POLICY_MAPS_GROUP_ID})
+        setDefaultOptions({ groupId: POLICY_MAPS_GROUP_ID})
 
         const items = await searchGroupItemsByIds({
             itemIds: [

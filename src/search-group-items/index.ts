@@ -6,6 +6,10 @@ import {
     ISearchResult,
 } from '@esri/arcgis-rest-portal';
 
+import {
+    defaultOptions
+} from '..'
+
 import { IItem } from '@esri/arcgis-rest-types';
 import { AgolItem, formatItem } from '../format-item';
 
@@ -51,42 +55,44 @@ type SearchOptions = {
     subCategories?: string[];
     groupId?: string;
     agolHost?: string;
-    token?:string;
+    // token?:string;
 };
 
-export const AGOL_HOST = 'https://www.arcgis.com';
+// export const AGOL_HOST = 'https://www.arcgis.com';
 
 let categorySchemaJSON: IGroupCategorySchema = null;
 
-let defaultGroupId = '';
-let defaultAgolHost = AGOL_HOST;
+// let defaultGroupId = '';
+// let defaultAgolHost = AGOL_HOST;
 
-export const setDefaultGroupOptions = ({
-    agolHost = AGOL_HOST,
-    groupId,
-}: {
-    agolHost?: string;
-    groupId: string;
-}):void => {
+// export const setDefaultGroupOptions = ({
+//     agolHost = AGOL_HOST,
+//     groupId,
+// }: {
+//     agolHost?: string;
+//     groupId: string;
+// }):void => {
 
-    if(!groupId){
-        console.error('ArcGIS Online group Id is missing!');
-    }
+//     if(!groupId){
+//         console.error('ArcGIS Online group Id is missing!');
+//     }
 
-    defaultGroupId = groupId;
-    defaultAgolHost = agolHost
-};
+//     defaultGroupId = groupId;
+//     defaultAgolHost = agolHost
+// };
 
 export const loadGroupCategorySchema = async (): Promise<
     IGroupCategorySchema
 > => {
 
-    if (!defaultGroupId) {
+    const { groupId } = defaultOptions;
+
+    if (!groupId) {
         console.log('group id is required to load category schema');
         return null;
     }
 
-    const data = await getGroupCategorySchema(defaultGroupId);
+    const data = await getGroupCategorySchema(groupId);
 
     return (categorySchemaJSON = data);
 };
@@ -163,9 +169,11 @@ export const getQueryParamsForSearch = ({
     // sortOrder = 'desc',
     mainCategory = '',
     subCategories = [],
-    token = ''
+    // token = ''
 }: SearchOptions): string => {
     const queryStrings: string[] = [];
+
+    const { userSession } = defaultOptions;
 
     if (searchTerm) {
         queryStrings.push(`(${searchTerm})`);
@@ -189,7 +197,7 @@ export const getQueryParamsForSearch = ({
         sortField,
         sortOrder: SortOrderLookup[sortField] || 'desc',
         categories,
-        token
+        token: userSession ? userSession.token : ''
     };
 
     const paramsStr = Object.entries(params)
@@ -210,8 +218,12 @@ export const getQueryParamsForSearch = ({
 
 export const searchGroupItems = async (options: SearchOptions):Promise<SearchResponse> => {
 
-    const groupId = options.groupId || defaultGroupId;
-    const agolHost = options.agolHost || defaultAgolHost;
+    const groupId = options.groupId || defaultOptions.groupId;
+    const agolHost = options.agolHost || defaultOptions.ArcGISOnlineHost;
+
+    if(!groupId){
+        throw 'groupId is missing. either use setDefaultOptions to specify the default groupId or pass groupId in the options';
+    }
 
     const queryParams = getQueryParamsForSearch(options);
 

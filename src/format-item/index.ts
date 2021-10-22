@@ -1,5 +1,5 @@
 import { IItem } from '@esri/arcgis-rest-types';
-import { AGOL_HOST } from '..';
+import { defaultOptions, AGOL_HOST } from '..';
 
 export type AgolItem = {
     id: string;
@@ -36,11 +36,13 @@ type FormatItemOptions = {
 
 export const formatItem = ({ 
     item, 
-    agolHost = AGOL_HOST, 
+    // agolHost = AGOL_HOST, 
     thumbnailWidth = 200 
 }:FormatItemOptions): AgolItem => {
 
     const { thumbnail, id, type } = item;
+
+    const { ArcGISOnlineHost} = defaultOptions;
 
     let { typeKeywords, contentStatus } = item;
 
@@ -55,10 +57,10 @@ export const formatItem = ({
         thumbnailUrl: getThumbnailUrl({
             thumbnail: thumbnail,
             itemId: id,
-            agolHost,
+            agolHost: ArcGISOnlineHost,
             width: thumbnailWidth,
         }),
-        agolItemUrl: getAgolItemUrl(id, agolHost),
+        agolItemUrl: getAgolItemUrl(id, ArcGISOnlineHost),
         itemIconUrl: getIconUrl(type, typeKeywords),
         typeDisplayName: getDisplayName(type, typeKeywords),
     };
@@ -67,14 +69,14 @@ export const formatItem = ({
 };
 
 const getAgolItemUrl = (itemId = '', agolHost = '') => {
-    agolHost = agolHost || 'https://www.arcgis.com';
+    agolHost = agolHost || AGOL_HOST;
     return agolHost + '/home/item.html?id=' + itemId;
 };
 
 const getThumbnailUrl = ({
     thumbnail = '',
     itemId = '',
-    agolHost = 'https://www.arcgis.com',
+    agolHost = AGOL_HOST,
     width = 200,
 }:{
     thumbnail?: string;
@@ -86,9 +88,7 @@ const getThumbnailUrl = ({
         return '//static.arcgis.com/images/desktopapp.png';
     }
 
-    const host = agolHost || '//www.arcgis.com';
-
-    const thumbnailUrl = `${host}/sharing/content/items/${itemId}/info/${thumbnail}?w=${width}`;
+    const thumbnailUrl = `${agolHost}/sharing/content/items/${itemId}/info/${thumbnail}?w=${width}`;
 
     return thumbnailUrl;
 };

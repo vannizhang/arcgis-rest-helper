@@ -21,12 +21,37 @@ import {
     SortField,
     SortOrder,
     SearchResponse,
-    setDefaultGroupOptions,
+    setDefaultOptions,
     loadGroupCategorySchema,
     searchGroupItems,
     searchGroupItemsByIds,
     formatItem
 } from '@vannizhang/arcgis-rest-helper'
+```
+
+## Configure arcgis-rest-helper
+
+Make sure to call `setDefaultOptions` before using other methods like `loadGroupCategorySchema`, `searchGroupItems` and etc.
+
+```js
+import {
+    setDefaultOptions,
+} from '@vannizhang/arcgis-rest-helper'
+
+// this will make searchGroupItems to use the group 'abc123' by default, unless a groupId is provided in the SearchOptions
+setDefaultOptions({
+    groupId: 'abc123',
+});
+
+// can only use my favorite items module when myFavGroupId and userSession are provided
+
+const userSession = await getUserSession(); // let's assume this method returns the UserSession object
+
+setDefaultOptions({
+    groupId: 'abc123',
+    myFavGroupId: 'efg567',
+    userSession
+});
 ```
 
 ## API Reference
