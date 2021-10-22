@@ -16,16 +16,22 @@ npm install @vannizhang/arcgis-rest-helper
 ## Module import:
 ```js
 import {
+    setDefaultOptions,
+    // search-group-items
+    loadGroupCategorySchema,
+    searchGroupItems,
+    searchGroupItemsByIds,
+    // format-item
+    formatItem,
+    // my-favorite-items
+    getMyFavItems,
+    toggleShareWithMyFavGroup,
+    // shared types
     AgolItem,
     ContentType,
     SortField,
     SortOrder,
     SearchResponse,
-    setDefaultOptions,
-    loadGroupCategorySchema,
-    searchGroupItems,
-    searchGroupItemsByIds,
-    formatItem
 } from '@vannizhang/arcgis-rest-helper'
 ```
 
@@ -43,17 +49,17 @@ setDefaultOptions({
     groupId: 'abc123',
 });
 
-// can only use my favorite items module when myFavGroupId and userSession are provided
-
-const userSession = await getUserSession(); // let's assume this method returns the UserSession object
-
+// Here are all available default options
 setDefaultOptions({
     groupId: 'abc123',
+    ArcGISOnlineHost: 'https://arcgis-content.maps.arcgis.com',
+    // make sure myFavGroupId and userSession are provided before using methods from my-favorite-items module
     myFavGroupId: 'efg567',
-    userSession
+    userSession: getUserSession(); // let's assume this method returns the UserSession instance (https://esri.github.io/arcgis-rest-js/api/auth/UserSession/)
 });
 ```
 
 ## API Reference
 - [search-group-items](./src/search-group-items/README.md)
 - [format-item](./src/format-item/README.md)
+- [my-favorite-items](./src/my-favorite-items/README.md)
