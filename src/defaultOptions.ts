@@ -2,7 +2,7 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 
 export const AGOL_HOST = 'https://www.arcgis.com';
 
-type DefaultOptions = {
+export type DefaultOptions = {
     ArcGISOnlineHost?: string,
     groupId?: string,
     myFavGroupId?: string,
