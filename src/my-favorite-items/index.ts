@@ -1,4 +1,4 @@
-import { UserSession } from '@esri/arcgis-rest-auth';
+import { ArcGISIdentityManager  } from '@esri/arcgis-rest-request';
 import { shareItemWithGroup, unshareItemWithGroup, isItemSharedWithGroup, ISharingResponse, IGroupSharingOptions, searchGroupContent  } from '@esri/arcgis-rest-portal';
 import {
     IItem
@@ -37,10 +37,10 @@ export const getMyFavItems = async():Promise<IItem[]>=>{
 
     const {
         myFavGroupId,
-        userSession
+        identidyManager
     } = defaultOptions
 
-    if(!userSession || !myFavGroupId){
+    if(!identidyManager || !myFavGroupId){
         return [];
     }
 
@@ -49,7 +49,7 @@ export const getMyFavItems = async():Promise<IItem[]>=>{
             groupId: myFavGroupId,
             q: '',
             num: 1000,
-            authentication: userSession
+            authentication: identidyManager
         })
     
         return response.results;
@@ -63,10 +63,10 @@ export const toggleShareWithMyFavGroup = async(itemId:string):Promise<ISharingRe
 
     const {
         myFavGroupId,
-        userSession
+        identidyManager
     } = defaultOptions
 
-    if(!userSession){
+    if(!identidyManager){
         throw {
             error: 'need to sign in before toggle sharing item with my fav group'
         };
@@ -76,7 +76,7 @@ export const toggleShareWithMyFavGroup = async(itemId:string):Promise<ISharingRe
         const options:IGroupSharingOptions = {
             groupId: myFavGroupId,
             id: itemId,
-            authentication: userSession
+            authentication: identidyManager
         };
 
         const isSharedWithMyFavGroup = await isItemSharedWithGroup(options)

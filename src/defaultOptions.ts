@@ -1,4 +1,4 @@
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager  } from '@esri/arcgis-rest-request';
 
 export const AGOL_HOST = 'https://www.arcgis.com';
 
@@ -6,14 +6,14 @@ export type DefaultOptions = {
     ArcGISOnlineHost?: string,
     groupId?: string,
     myFavGroupId?: string,
-    userSession?:UserSession
+    identidyManager?:ArcGISIdentityManager
 }
 
 export let defaultOptions:DefaultOptions = {
     ArcGISOnlineHost: AGOL_HOST,
     groupId: '',
     myFavGroupId: '',
-    userSession: null
+    identidyManager: null
 }
 
 export const setDefaultOptions = (options:DefaultOptions)=>{

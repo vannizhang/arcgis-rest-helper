@@ -173,7 +173,7 @@ export const getQueryParamsForSearch = ({
 }: SearchOptions): string => {
     const queryStrings: string[] = [];
 
-    const { userSession } = defaultOptions;
+    const { identidyManager } = defaultOptions;
 
     if (searchTerm) {
         queryStrings.push(`(${searchTerm})`);
@@ -197,7 +197,7 @@ export const getQueryParamsForSearch = ({
         sortField,
         sortOrder: SortOrderLookup[sortField] || 'desc',
         categories,
-        token: userSession ? userSession.token : ''
+        token: identidyManager ? identidyManager.token : ''
     };
 
     const paramsStr = Object.entries(params)
