@@ -1,4 +1,4 @@
-import { ArcGISIdentityManager  } from '@esri/arcgis-rest-request';
+// import { ArcGISIdentityManager  } from '@esri/arcgis-rest-request';
 import { shareItemWithGroup, unshareItemWithGroup, isItemSharedWithGroup, ISharingResponse, IGroupSharingOptions, searchGroupContent  } from '@esri/arcgis-rest-portal';
 import {
     IItem

@@ -19,7 +19,7 @@ import {
 setDefaultOptions({
     groupId: 'abc123',
     myFavGroupId: 'edf345',
-    userSession,
+    identidyManager,
 })
 
 const myFavItems = await getMyFavItems();
@@ -49,7 +49,7 @@ import {
 setDefaultOptions({
     groupId: 'abc123',
     myFavGroupId: 'edf345',
-    userSession,
+    identidyManager,
 })
 
 const res = await toggleShareWithMyFavGroup('efd567);

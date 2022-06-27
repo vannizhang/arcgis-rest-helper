@@ -53,9 +53,9 @@ setDefaultOptions({
 setDefaultOptions({
     groupId: 'abc123',
     ArcGISOnlineHost: 'https://arcgis-content.maps.arcgis.com',
-    // make sure myFavGroupId and userSession are provided before using methods from my-favorite-items module
+    // make sure myFavGroupId and identidyManager are provided before using methods from my-favorite-items module
     myFavGroupId: 'efg567',
-    userSession: getUserSession(); // let's assume this method returns the UserSession instance (https://esri.github.io/arcgis-rest-js/api/auth/UserSession/)
+    identidyManager: getIdentidyManager(); // let's assume this method returns the ArcGISIdentityManager instance (https://developers.arcgis.com/arcgis-rest-js/api-reference/arcgis-rest-request/ArcGISIdentityManager)
 });
 ```
 
